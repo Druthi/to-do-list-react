@@ -1,21 +1,25 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { render } from 'react-dom';
 
-class App extends Component {
+
+class App extends React.Component {
+
+  display(event){
+    event.preventDefault();
+    const storeID = this.storeInput.value;
+  }
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <p> Hello World! </p>
+        <input type="text" placeholder = "Enter task" ref={(input) => {this.storeInput = input}}/>
+        <button onClick={(e) => this.display(e)}> Submit </button>
       </div>
     );
   }
 }
+
+
+
 
 export default App;

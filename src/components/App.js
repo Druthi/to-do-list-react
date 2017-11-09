@@ -7,7 +7,8 @@ class App extends React.Component {
     
     this.state = {
         inputValue :"",
-        displayValue : []
+        displayValue : [],
+        isChecked: true
     };
 }  
 display = (event) => {
@@ -22,6 +23,19 @@ handleChange = (event) => {
   this.setState({inputValue: event.target.value})
 }
 
+showTask = (listValue) => {
+  return <label>
+  <input type="checkbox"
+    checked={this.state.isChecked}
+    onChange={this.toggleChange}
+  />{listValue}</label>
+  }
+
+  toggleChange = () =>{
+    this.setState(prevState => ({isChecked: !prevState.isChecked }));
+  }
+
+
   render() {
     const { inputValue, displayValue } = this.state;
     return (
@@ -29,10 +43,9 @@ handleChange = (event) => {
        <form onSubmit={this.display}>
        <input type = "text" value={this.state.inputValue} onChange={(e) => this.handleChange(e)}/>
        <button type = "submit">Submit</button>
-       <ul>
-         {this.state.displayValue.map((listValue) =>{
-         return <li>{listValue}</li>})}
-        </ul>
+       <div>
+         {this.state.displayValue.map(this.showTask)}         
+        </div>
        </form>       
       </div>
     )

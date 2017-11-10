@@ -7,15 +7,21 @@ class App extends React.Component {
     
     this.state = {
         inputValue :"",
-        displayValue : [],
-        isChecked: true
+        displayValue : [{
+          task:"",
+          isChecked: false
+        }],
+        
     };
 }  
 
 display = (event) => {
   event.preventDefault();
   const newArr = this.state.displayValue;
-  newArr.push(this.state.inputValue);
+  newArr.push({
+    task: this.state.inputValue,
+    isChecked: false
+  });
   this.setState({displayValue: newArr});
   this.setState({inputValue: ""});
   console.log(this.state);
@@ -28,16 +34,22 @@ handleChange = (event) => {
 showTask = (listValue, index) => {
   return <ul><label>
   <input type="checkbox" key={index}
-    checked={this.state.isChecked}
-    onChange={this.toggleChange}
-  />{listValue}</label></ul>
-  }
+    checked={this.state.displayValue[index].isChecked}
+    onChange={(e) => this.toggleChange(index, e)}
+  />{listValue.task}</label></ul>
+}
 
-  toggleChange = () =>{
-    this.setState(prevState => ({isChecked: !prevState.isChecked }));
-  }
+toggleChange = (index, event) =>{   
+  const newArr = this.state.displayValue;
+  newArr[index]= {
+    task: this.state.displayValue[index].task,
+    isChecked: !this.state.displayValue[index].isChecked
+  };
+  this.setState({displayValue: newArr});   
+  this.setState({ displayValue: newArr});
+  //console.log(this.state.displayValue[index].isChecked);
 
-
+}
   render() {
     const { inputValue, displayValue } = this.state;
     return (

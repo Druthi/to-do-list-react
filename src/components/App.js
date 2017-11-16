@@ -1,91 +1,111 @@
-import React from 'react';
-import Completed from './Completed';
 
+import React, { Component } from 'react';
+import uuidv4 from 'uuid/v4';
+import { pickBy } from 'lodash';
+import { Link } from 'react-router-dom';
 
-class App extends React.Component {
+import '../css/App.css';
+
+const Task = ({ name, isComplete, onChange }) => {
+  return (
+    <li>
+      <label>
+        <input type="checkbox" checked={isComplete} onChange={onChange} />
+        {name}
+      </label>
+    </li>
+  );
+};
+
+class App extends Component {
   constructor(props) {
     super(props);
-    
     this.state = {
-        inputValue :"",
-        displayValue : [],
-        completed :[]
-        
+      tasks: {},
+      inputValue: '',
     };
-}  
+  }
 
-display = (event) => {
-  event.preventDefault();
-  const newArr = this.state.displayValue;
-  newArr.push({
-    task: this.state.inputValue,
-    isChecked: false
-  });
-  this.setState({displayValue: newArr});
-  this.setState({inputValue: ""});
-  //console.log(this.state);
-}
-
-handleChange = (event) => {
-  this.setState({inputValue: event.target.value})
-}
-
-showTask = (listValue, index) => {
-  return <ul><label>
-  <input type="checkbox" key={index}
-    checked={this.state.displayValue[index].isChecked}
-    onClick={(e) => this.toggleChange(index, e)}
-  />{listValue.task}</label></ul>
-}
-
-toggleChange = (index, event) =>{
-  console.log(event);   
-  const newArr = this.state.displayValue;
-  newArr[index]= {
-    task: this.state.displayValue[index].task,
-    isChecked: !this.state.displayValue[index].isChecked
+  onInputChange = e => {
+    this.setState({
+      ...this.state,
+      inputValue: e.target.value,
+    });
   };
-  this.setState({displayValue: newArr}, function() {
-    this.completedTask(index);    
-  }); 
-}
 
-completedTask = (index) =>{
-  const newArr = this.state.completed;
-  if(this.state.displayValue[index].isChecked == true){
-    newArr.push(this.state.displayValue[index].task);
-    this.setState({completed:  newArr});  
-  }
-  else if(this.state.displayValue[index].isChecked == false){
-    for(var com in newArr){
-      if(this.state.displayValue[index].task == newArr[com]){
-        newArr.splice(com);
-        this.setState({completed: newArr});
-      }
-    }
-  }
-  else {
-      this.setState({completed: newArr});
-      console.log(this.state.completed);
-    }
-  }
+  createTask = (event) => {
+    event.preventDefault();
+    const { inputValue, tasks } = this.state;
+    const taskId = uuidv4();
+    this.setState({
+      ...this.state,
+      tasks: {
+        ...tasks,
+        [taskId]: { id: taskId, name: inputValue, isComplete: false },
+      }, inputValue: ""
+    });
+  };
 
+  onChange = toggleId => {
+    const taskToToggle = this.state.tasks[toggleId];
+    this.setState({
+      ...this.state,
+      tasks: {
+        ...this.state.tasks,
+        [toggleId]: { ...taskToToggle, isComplete: !taskToToggle.isComplete },
+      },
+    });
+  };
 
   render() {
-    const { inputValue, displayValue, completed } = this.state;
+    const { tasks, inputValue } = this.state;
+    const completedTasks = pickBy(
+      tasks,
+      ({ isComplete }) => isComplete == true
+    );
+    const incompletedTasks = pickBy(
+      tasks,
+      ({ isComplete }) => isComplete == false
+    );
+
     return (
-      <div className="App">               
-        <form onSubmit={this.display}>
-          <input type = "text" value={this.state.inputValue} placeholder="Enter task ..." onChange={(e) => this.handleChange(e)}/>
-          <button type = "submit">Submit</button>
-          <h1>To Do List</h1> 
-            <div>
-              {this.state.displayValue.map(this.showTask)}         
-            </div>
-        </form>   
-        <Completed comTask= {this.state.completed} /> 
+      <div className = "App">
+        <Link to="/">Home</Link>
+        <h3 className = "App-header">To-do-list App</h3>
+        <form onSubmit={this.createTask}>          
+          <input type="text" value={inputValue} onChange={this.onInputChange} />
+          <button>Create task</button>
+          <div className="para-left">
+            <h3>Incompleted Tasks</h3>
+            <ul>
+              {Object.entries(incompletedTasks).map(
+                ([id, { name, isComplete }]) => (
+                  <Task
+                    key={id}
+                    name={name}
+                    isComplete={isComplete}
+                    onChange={e => this.onChange(id)}
+                  />
+                )
+              )}
+            </ul>
+          </div>
+          <div className="para-right">
+            <h3>Completed Tasks</h3>
+            <ul>
+              {Object.entries(completedTasks).map(([id, { name, isComplete }]) => (
+                <Task
+                  key={id}
+                  name={name}
+                  isComplete={isComplete}
+                  onChange={e => this.onChange(id)}
+                />
+              ))}
+            </ul>
+          </div>
+        </form>
       </div>
-    )
+    );
   }
 }
 

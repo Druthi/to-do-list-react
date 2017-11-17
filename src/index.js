@@ -5,6 +5,8 @@ import './index.css';
 import 'semantic-ui-css/semantic.min.css';
 import LoginPage from './components/LoginPage';
 import Home from './components/Home';
+import App from './components/App'
+
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -14,6 +16,7 @@ const Root = () => {
             <div>
                 <Route path='/' component={Home} />
                 <Route path='/loginPage' component={LoginPage} />
+                <Route path='/todoApp' component={App} />
             </div>
         </BrowserRouter>
     )

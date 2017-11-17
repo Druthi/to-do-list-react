@@ -3,17 +3,18 @@ import React, { Component } from 'react';
 import uuidv4 from 'uuid/v4';
 import { pickBy } from 'lodash';
 import { Link } from 'react-router-dom';
+import { Input, Button, Segment, Grid } from 'semantic-ui-react';
 
 import '../css/App.css';
 
 const Task = ({ name, isComplete, onChange }) => {
   return (
-    <li>
+    <Segment> 
       <label>
         <input type="checkbox" checked={isComplete} onChange={onChange} />
         {name}
       </label>
-    </li>
+    </Segment>
   );
 };
 
@@ -69,41 +70,45 @@ class App extends Component {
     );
 
     return (
-      <div className = "App">
+      <div className = "ui container">
         <Link to="/">Home</Link>
-        <h3 className = "App-header">To-do-list App</h3>
-        <form onSubmit={this.createTask}>          
-          <input type="text" value={inputValue} onChange={this.onInputChange} />
-          <button>Create task</button>
-          <div className="para-left">
-            <h3>Incompleted Tasks</h3>
-            <ul>
-              {Object.entries(incompletedTasks).map(
-                ([id, { name, isComplete }]) => (
-                  <Task
-                    key={id}
-                    name={name}
-                    isComplete={isComplete}
-                    onChange={e => this.onChange(id)}
-                  />
-                )
-              )}
-            </ul>
-          </div>
-          <div className="para-right">
-            <h3>Completed Tasks</h3>
-            <ul>
-              {Object.entries(completedTasks).map(([id, { name, isComplete }]) => (
-                <Task
-                  key={id}
-                  name={name}
-                  isComplete={isComplete}
-                  onChange={e => this.onChange(id)}
-                />
-              ))}
-            </ul>
-          </div>
-        </form>
+        <div className="App-Head">
+          <h3>To-do-list App</h3>
+          <form onSubmit={this.createTask}>          
+            <Input type="text" value={inputValue} onChange={this.onInputChange} placeholder="Enter task..."/>
+            <Button>Create task</Button>
+          </form>
+        </div>
+            <Grid>
+              <Grid.Column floated='left' width={5}>
+                <h3>Incompleted Tasks</h3>
+                  <Segment.Group>
+                    {Object.entries(incompletedTasks).map(
+                      ([id, { name, isComplete }]) => (
+                        <Task
+                          key={id}
+                          name={name}
+                          isComplete={isComplete}
+                          onChange={e => this.onChange(id)}
+                        />
+                    ))}
+                  </Segment.Group>
+              </Grid.Column>
+              <Grid.Column floated='right' width={5}>
+                <h3>Completed Tasks</h3>
+                  <Segment.Group>
+                    {Object.entries(completedTasks).map(([id, { name, isComplete }]) => (
+                      <Task
+                        key={id}
+                        name={name}
+                        isComplete={isComplete}
+                        onChange={e => this.onChange(id)}
+                      />
+                    ))}
+                  </Segment.Group>
+              </Grid.Column>
+            </Grid>          
+        
       </div>
     );
   }

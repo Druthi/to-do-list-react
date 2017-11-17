@@ -1,108 +1,20 @@
 
 
-
-.App {
-  text-align: center;
-}
-
-.App-header {
-  background-color: #222;
-  height: 30px;
-  padding: 20px;
-  color: white;
-  animation: mymove 5s infinite;
-  margin: 50px 150px 0px 150px;
-}
-
-@keyframes mymove {
-  0%   {top: 0px;}
-  25%  {top: 200px;}
-  75%  {top: 50px}
-  100% {top: 100px;}
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 ul {
   list-style-type: none;
 }
 
-input[type=text] {
-  padding:5px; 
-  border:2px solid #CEC5C5; 
-  
-}
-
-input[type=text]:focus {
-  border-color:#333;
-}
-
-input[type=checkbox] {
-  margin-right: 10px;
-  padding: 0;
-}
-input{
-  font-size: inherit;
-  padding: 0.3em 0.4em;
-  margin-left: 100px;
-  border: 2px solid #f90;
-  background-color: #fff;
-  
-}
-
-button{
-  font-size: inherit;
-  padding: 0.3em 0.4em;
-  margin-left: 0px;
-  border: 2px solid #f90;
-  background-color: #fff;
-  
-}
-
 .para-left {
   margin-top:5%;
-  display:block;
   float:left;
-  width:50%;
-  margin-left:10px;
+  
 }
 
 .para-right {
-  display:block;
   float:right;
-  width:50%;
-  margin-left:10px;
-  margin-top: 5%;
+  width:50%;  
 }
 
-
-
-input {
-  width: 400px;
-  padding: 2px;
-  border: 1px solid #aaa;
-}
-
-input {
-  margin-left: 0px;
-  
-}
-input:focus {
-  outline: none;
-  background-color: #ffa;
-  background-color: rgba(255,255,210,0.5);
-}
-
-body {
-  background-color: #F5F5E9;
-  color: #333;
-  font-family: 'Raleway', sans-serif;
-  font-weight:400;
-}
-
-form {
-  margin: 0px 150px 50px 150px;
+.App-Head {
+  text-align: center;
 }
